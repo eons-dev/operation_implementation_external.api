@@ -45,12 +45,20 @@ When sending the response, the result is decoded as ascii. This means sending bi
 
 		if (this.data_map):
 			for key, val in this.data_map.items():
-				this.data.update({key: eons.util.GetAttr(this,val)})
-		
+				# this.data.update({key: eons.util.GetAttr(this,val)})
+				value = this.Fetch(val, None)
+				if (value is None):
+					continue
+				this.data.update({key: value})
+
 		if (this.query_map):
 			this.url += '?'
 			for key, val in this.query_map.items():
-				this.url += f"{key}={eons.util.GetAttr(this,val)}&"
+				# this.url += f"{key}={eons.util.GetAttr(this,val)}&"
+				value = this.Fetch(val, None)
+				if (value is None):
+					continue
+				this.url += f"{key}={value}&"
 			this.url = this.url[:-1] #trim the last "&"
 
 	def ConstructRequest(this):
